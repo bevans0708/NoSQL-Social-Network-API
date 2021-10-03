@@ -19,6 +19,6 @@
    "homepage": "https://github.com/bevans0708/NoSQL-Social-Network-API#readme",
    "dependencies": {
       "express": "^4.17.1",
-      "mongoose": "^6.0.7"
+      "mongoose": "5.9.7"
    }
 }
