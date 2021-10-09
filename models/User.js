@@ -18,17 +18,21 @@ const UserSchema = new Schema(
       default: Date.now,
       get: createdAtVal => dateFormat(createdAtVal)
     },
-    size: {
-      type: String,
-      required: true,
-      enum: ['Personal', 'Small', 'Medium', 'Large', 'Extra Large'],
-      default: 'Large'
+    email: {
+       type: String,
+       match: [/.+@.+\..+/, 'Must match an email address!'],
+       required: true,
     },
-    toppings: [],
-    comments: [
+    thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Thought'
+        ref: 'Thought',
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
       }
     ]
   },
@@ -43,11 +47,8 @@ const UserSchema = new Schema(
 );
 
 // get total count of comments and replies on retrieval
-UserSchema.virtual('thoughtCount').get(function() {
-  return this.thought.reduce(
-    (total, thought) => total + thought.reactions.length + 1,
-    0
-  );
+UserSchema.virtual('friendCount').get(function() {
+  return this.friends.length;
 });
 
 const User = model('User', UserSchema);
